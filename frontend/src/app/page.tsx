@@ -72,14 +72,14 @@ export default function HomePage() {
           />
         </motion.div>
 
-        <div className="relative z-20 container mx-auto text-center text-white pt-20">
+        <div className="relative z-20 container mx-auto text-center text-white pt-12 md:pt-20">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="font-display text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight max-w-5xl mx-auto px-4"
+            className="font-display text-2xl sm:text-5xl md:text-7xl font-extrabold mb-6 leading-[1.2] md:leading-[1.1] tracking-tight max-w-5xl mx-auto px-4"
           >
-            Trouvez et réservez votre chambre à Labé <span className="text-primary underline decoration-4 underline-offset-8">en quelques secondes</span>.
+            Trouvez et réservez votre <br className="sm:hidden" /> chambre à Labé <span className="text-primary underline decoration-2 md:decoration-4 underline-offset-4 md:underline-offset-8">en quelques secondes</span>.
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
