@@ -93,7 +93,7 @@ function CheckoutPageContent() {
 
     return (
         <div className="min-h-screen bg-[#f8f7f5] dark:bg-[#111827]">
-            <main className="max-w-7xl mx-auto px-6 lg:px-20 py-12 w-full">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-20 py-8 md:py-12 w-full">
                 {/* Breadcrumbs */}
                 <motion.nav 
                     initial={{ opacity: 0, x: -10 }}
@@ -107,15 +107,15 @@ function CheckoutPageContent() {
                     <span className="text-[#1a2b4b] dark:text-slate-200 uppercase">Finalisation</span>
                 </motion.nav>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16">
                     {/* Left Column: Guest Info & Payment */}
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="lg:col-span-7 space-y-16"
+                        className="md:col-span-7 space-y-12 md:space-y-16"
                     >
-                        <header className="space-y-4">
-                            <h2 className="text-5xl md:text-6xl font-black text-[#1a2b4b] dark:text-white mb-4 tracking-tighter uppercase leading-[0.9]">Dernière étape <br /><span className="text-primary">Avant Labé</span></h2>
+                        <header className="space-y-4 text-center md:text-left">
+                            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-[#1a2b4b] dark:text-white mb-4 tracking-tighter uppercase leading-[0.9]">Dernière étape <br /><span className="text-primary">Avant Labé</span></h2>
                             <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-xl italic">
                                 "Le voyage d'une vie commence souvent par une simple réservation bien faite."
                             </p>
@@ -141,7 +141,7 @@ function CheckoutPageContent() {
                     </motion.div>
 
                     {/* Right Column: Summary Card */}
-                    <div className="lg:col-span-5">
+                    <div className="md:col-span-12 lg:col-span-5">
                         <motion.div 
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -169,7 +169,7 @@ function CheckoutPageContent() {
                                     </div>
                                 </div>
 
-                                <div className="p-10 space-y-10">
+                                <div className="p-6 sm:p-10 space-y-10">
                                     {/* Trip Details Grid */}
                                     <div className="grid grid-cols-2 gap-10 py-10 border-y border-slate-100 dark:border-slate-800">
                                         <div className="space-y-3">

@@ -35,7 +35,7 @@ export default function AboutPage() {
                         <h2 className="text-3xl md:text-4xl font-bold text-navy-deep dark:text-white mb-8 leading-tight">
                             Connecter les voyageurs à l'authenticité de la Moyenne-Guinée.
                         </h2>
-                        <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
                             Labé Booking est né d'une volonté simple : moderniser l'accès aux services hôteliers dans l'une des régions les plus touristiques de la Guinée. Nous croyons que trouver un logement confortable ne devrait pas être un obstacle pour découvrir les merveilles du Fouta.
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -90,7 +90,7 @@ export default function AboutPage() {
             <section className="py-24 container px-6 text-center">
                 <div className="max-w-3xl mx-auto">
                     <h2 className="text-3xl md:text-5xl font-bold mb-8">Prêt à découvrir Labé ?</h2>
-                    <p className="text-lg text-slate-500 mb-10">
+                    <p className="text-sm sm:text-lg text-slate-500 mb-10">
                         Que ce soit pour un voyage d'affaires, une mission humanitaire ou des vacances en famille, nous avons la chambre qu'il vous faut.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">

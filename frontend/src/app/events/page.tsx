@@ -82,8 +82,8 @@ export default function EventsPage() {
                                             ))}
                                         </div>
                                     </div>
-                                    <Link href={`/hotels?event=${event.id}`} className="shrink-0">
-                                        <Button size="sm" className="gap-1.5">Voir hôtels <ChevronRight className="h-3.5 w-3.5" /></Button>
+                                    <Link href={`/hotels?event=${event.id}`} className="shrink-0 w-full sm:w-auto">
+                                        <Button size="sm" className="gap-1.5 w-full">Voir hôtels <ChevronRight className="h-3.5 w-3.5" /></Button>
                                     </Link>
                                 </div>
                             </CardContent>

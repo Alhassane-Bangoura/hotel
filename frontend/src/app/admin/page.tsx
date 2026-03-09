@@ -114,7 +114,7 @@ export default function AdminPage() {
 
             {/* Main Content */}
             <main className="flex-1 flex flex-col overflow-hidden">
-                <header className="h-24 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800 flex items-center justify-between px-10 shrink-0 z-20">
+                <header className="h-20 md:h-24 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800 flex items-center justify-between px-4 sm:px-10 shrink-0 z-20">
                     <div className="flex-1 max-w-xl">
                         <div className="relative group">
                             <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
@@ -131,29 +131,29 @@ export default function AdminPage() {
                             <Bell className="h-5 w-5" />
                             <span className="absolute top-3 right-3 size-2.5 bg-red-500 rounded-full border-4 border-white dark:border-slate-900 animate-pulse" />
                         </button>
-                        <div className="flex items-center gap-4 pl-8 border-l border-slate-100 dark:border-slate-800">
-                            <div className="text-right">
+                        <div className="flex items-center gap-4 sm:pl-8 sm:border-l border-slate-100 dark:border-slate-800">
+                            <div className="text-right hidden sm:block">
                                 <p className="text-[11px] font-black text-[#1a2b4b] dark:text-white uppercase tracking-widest">Alpha Mamadou</p>
                                 <p className="text-[9px] text-primary font-black uppercase tracking-[0.3em]">Directeur Général</p>
                             </div>
-                            <div className="size-12 rounded-2xl bg-[#1a2b4b] flex items-center justify-center shadow-xl font-bold text-primary">
+                            <div className="size-10 md:size-12 rounded-2xl bg-[#1a2b4b] flex items-center justify-center shadow-xl font-bold text-primary text-sm md:text-base">
                                 AM
                             </div>
                         </div>
                     </div>
                 </header>
 
-                <div className="flex-1 overflow-y-auto p-10 space-y-12 scroll-smooth">
+                <div className="flex-1 overflow-y-auto p-4 sm:p-10 space-y-10 md:space-y-12 scroll-smooth">
                     {/* Welcome Section */}
                     <div className="flex items-center justify-between">
                         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-                            <h2 className="text-4xl md:text-5xl font-black text-[#1a2b4b] dark:text-white tracking-tighter uppercase leading-[0.8]">
+                            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#1a2b4b] dark:text-white tracking-tighter uppercase leading-[0.8]">
                                 Performance <br /><span className="text-primary italic">Live</span>
                             </h2>
                             <p className="text-slate-400 font-black text-[10px] uppercase tracking-[0.4em] mt-4">Dernière mise à jour: à l'instant</p>
                         </motion.div>
-                        <button className="flex items-center gap-4 px-8 py-4 bg-[#1a2b4b] rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-white hover:shadow-2xl transition-all group">
-                            <Download className="h-5 w-5 text-primary group-hover:bounce" />
+                        <button className="flex items-center gap-4 px-4 sm:px-8 py-3 sm:py-4 bg-[#1a2b4b] rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-white hover:shadow-2xl transition-all group shrink-0">
+                            <Download className="h-4 w-4 sm:h-5 sm:w-5 text-primary group-hover:bounce" />
                             Export Data
                         </button>
                     </div>
@@ -168,7 +168,7 @@ export default function AdminPage() {
                                 transition={{ delay: i * 0.1 }}
                             >
                                 <Card className="border-none shadow-2xl shadow-black/5 rounded-[2rem] overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
-                                    <CardContent className="p-8">
+                                    <CardContent className="p-6 sm:p-8">
                                         <div className="flex justify-between items-start mb-8">
                                             <div className={`p-4 ${stat.bg} ${stat.color} rounded-2xl group-hover:scale-110 transition-transform`}>
                                                 <stat.icon className="h-6 w-6" />

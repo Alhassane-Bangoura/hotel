@@ -68,7 +68,7 @@ export default function RoomDetailPage() {
 
     return (
         <div className="min-h-screen bg-[#f8f7f5] dark:bg-[#111827]">
-            <main className="max-w-7xl mx-auto px-6 lg:px-20 py-12 w-full">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-20 py-8 md:py-12 w-full">
                 {/* Breadcrumbs */}
                 <motion.nav 
                     initial={{ opacity: 0, y: -10 }}
@@ -101,9 +101,9 @@ export default function RoomDetailPage() {
                                 ))}
                             </div>
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-[#1a2b4b] dark:text-white leading-[0.9] tracking-tighter uppercase max-w-4xl">
+                        <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-[#1a2b4b] dark:text-white leading-[0.9] tracking-tighter uppercase max-w-4xl">
                             {room.name} <br />
-                            <span className="text-primary text-4xl md:text-5xl">@ {room.location.split(',')[0]}</span>
+                            <span className="text-2xl sm:text-4xl md:text-5xl text-primary">@ {room.location.split(',')[0]}</span>
                         </h1>
                         <div className="flex flex-wrap items-center gap-8">
                             <div className="flex items-center gap-3 text-slate-500 font-black text-[11px] uppercase tracking-widest">
@@ -128,7 +128,7 @@ export default function RoomDetailPage() {
                             { icon: Wind, label: 'Air Conditionné' },
                             { icon: Eye, label: 'Vue Panoramique' }
                         ].map((stat, i) => (
-                            <div key={i} className="flex flex-col gap-4 p-8 bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl shadow-black/5 group hover:border-primary transition-colors">
+                            <div key={i} className="flex flex-col gap-4 p-6 sm:p-8 bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-2xl shadow-black/5 group hover:border-primary transition-colors">
                                 <div className="bg-primary/10 w-12 h-12 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
                                     <stat.icon className="h-6 w-6 text-primary" />
                                 </div>
@@ -182,7 +182,7 @@ export default function RoomDetailPage() {
                         </div>
 
                         {/* About Hotel */}
-                        <div className="p-12 bg-[#1a2b4b] rounded-[3.5rem] flex flex-col md:flex-row gap-12 items-center text-white overflow-hidden relative">
+                        <div className="p-6 sm:p-12 bg-[#1a2b4b] rounded-[2.5rem] sm:rounded-[3.5rem] flex flex-col md:flex-row gap-12 items-center text-white overflow-hidden relative">
                             <div className="absolute top-0 right-0 opacity-10 blur-2xl pointer-events-none">
                                 <HotelIcon className="size-64 text-white" />
                             </div>

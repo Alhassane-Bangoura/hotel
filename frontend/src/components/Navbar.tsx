@@ -18,13 +18,13 @@ export function Navbar() {
 
     return (
         <header className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 dark:bg-slate-950/80 dark:border-slate-800">
-            <div className="container flex h-20 items-center justify-between">
+            <div className="container px-4 sm:px-6 flex h-16 md:h-20 items-center justify-between">
                 {/* Logo & Brand */}
                 <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
                     <div className="text-primary">
-                        <Hotel className="h-9 w-9" />
+                        <Hotel className="h-7 w-7 md:h-9 md:h-9" />
                     </div>
-                    <h2 className="text-navy-deep dark:text-white text-xl font-display font-extrabold tracking-tight">
+                    <h2 className="text-navy-deep dark:text-white text-lg md:text-xl font-display font-extrabold tracking-tight">
                         Labé<span className="text-primary">Booking</span>
                     </h2>
                 </Link>
