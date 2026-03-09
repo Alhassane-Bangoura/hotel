@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/store/useAuthStore";
 
 export const authService = {
-    login: async (email: string, password: string) => {
+    signIn: async (email: string, password: string) => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         
         // Mock login
@@ -18,20 +18,34 @@ export const authService = {
         return { success: false, error: 'Identifiants invalides' };
     },
     
-    register: async (data: any) => {
+    signUp: async (email: string, password: string, name: string, role: string) => {
         await new Promise((resolve) => setTimeout(resolve, 1200));
         const mockUser = {
             id: Math.random().toString(36).substring(7),
-            email: data.email,
-            name: data.fullName,
-            role: 'user' as const,
+            email: email,
+            name: name,
+            phone: null,
+            role: (['client', 'hotel', 'organizer', 'admin'].includes(role) ? role : 'client') as any,
+            created_at: new Date().toISOString()
         };
-        useAuthStore.getState().setUser(mockUser);
+        useAuthStore.getState().setUser(mockUser as any);
         return { success: true, user: mockUser };
     },
     
-    logout: async () => {
+    signOut: async () => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         useAuthStore.getState().logout();
+    },
+    
+    getUserProfile: async (id: string) => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        return {
+            id,
+            email: 'user@example.com',
+            name: 'Nom Utilisateur',
+            phone: null,
+            role: 'client' as const,
+            created_at: new Date().toISOString()
+        };
     }
 };

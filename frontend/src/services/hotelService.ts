@@ -1,3 +1,14 @@
+export interface Hotel {
+    id: string;
+    name: string;
+    location: string;
+    price: number;
+    rating: number;
+    image: string;
+    description: string;
+    amenities: string[];
+}
+
 // Mock data for initial implementation
 export const MOCK_HOTELS = [
     {

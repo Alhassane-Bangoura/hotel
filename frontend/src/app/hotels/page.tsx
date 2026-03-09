@@ -90,6 +90,7 @@ export default function HotelsPage() {
                                     >
                                         <RoomResultCard room={{
                                             ...hotel,
+                                            hotel: hotel.name,
                                             quartier: hotel.location.split(',')[0],
                                             capacity: 2,
                                             category: 'Premium',

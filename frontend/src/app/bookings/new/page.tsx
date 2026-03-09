@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,7 +12,7 @@ import { bookingService } from '@/services/bookingService';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useToast } from '@/components/ui/Toast';
 
-export default function CheckoutPage() {
+function CheckoutPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { showToast } = useToast();
@@ -246,5 +246,18 @@ export default function CheckoutPage() {
                 </div>
             </main>
         </div>
+    );
+}
+
+export default function CheckoutPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#f8f7f5] dark:bg-[#111827] flex flex-col items-center justify-center gap-6">
+                <Loader2 className="h-12 w-12 text-primary animate-spin" />
+                <p className="font-black text-slate-400 uppercase tracking-widest text-[10px]">Chargement sécurisé...</p>
+            </div>
+        }>
+            <CheckoutPageContent />
+        </Suspense>
     );
 }
