@@ -58,8 +58,8 @@ export function RoomResultCard({ room }: RoomProps) {
             <div className="flex-1 p-8 flex flex-col lg:flex-row justify-between gap-8">
                 <div className="space-y-6">
                     <div className="flex flex-col gap-2">
-                        <div className="flex items-center justify-between md:justify-start gap-6">
-                            <h3 className="text-2xl font-black text-[#1a2b4b] dark:text-white group-hover:text-primary transition-colors tracking-tight uppercase leading-tight">{room.name}</h3>
+                        <div className="flex items-center justify-between md:justify-start gap-4 sm:gap-6">
+                            <h3 className="text-xl sm:text-2xl font-black text-[#1a2b4b] dark:text-white group-hover:text-primary transition-colors tracking-tight uppercase leading-tight">{room.name}</h3>
                             <div className="bg-primary/10 text-primary px-3 py-1.5 rounded-xl flex items-center gap-1.5 font-black text-xs">
                                 <Star className="h-4 w-4 fill-current" /> {room.rating}
                             </div>
@@ -102,7 +102,7 @@ export function RoomResultCard({ room }: RoomProps) {
                         {room.oldPrice && (
                             <p className="text-xs text-slate-300 line-through font-bold uppercase tracking-widest mb-1">{room.oldPrice.toLocaleString()} GNF</p>
                         )}
-                        <p className="text-4xl font-black text-[#1a2b4b] dark:text-white leading-none mb-2">
+                        <p className="text-3xl sm:text-4xl font-black text-[#1a2b4b] dark:text-white leading-none mb-2">
                             {room.price.toLocaleString()} <span className="text-[10px] text-slate-400 uppercase font-black tracking-[0.2em] align-middle">GNF / nuit</span>
                         </p>
                         <p className="inline-block text-[10px] font-black text-[#1a2b4b] dark:text-slate-300 bg-primary/20 px-3 py-1.5 rounded-lg uppercase tracking-widest">

@@ -26,17 +26,17 @@ export default function HotelsPage() {
         <div className="min-h-screen bg-[#f8f7f5] dark:bg-[#111827]">
             <SearchSummary />
 
-            <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 flex flex-col md:flex-row gap-10">
+            <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 flex flex-col md:flex-row gap-10">
                 <FilterSidebar />
 
                 <section className="flex-1">
                     {/* Results Header */}
-                    <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
                         <motion.div 
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                         >
-                            <h1 className="text-4xl font-black text-[#1a2b4b] dark:text-white mb-2 tracking-tighter uppercase">Chambres disponibles à Labé</h1>
+                            <h1 className="text-3xl sm:text-4xl font-black text-[#1a2b4b] dark:text-white mb-2 tracking-tighter uppercase">Chambres disponibles à Labé</h1>
                             <p className="text-slate-500 font-bold tracking-tight uppercase text-xs opacity-60">
                                 {loading ? 'Recherche en cours...' : `${filteredHotels.length} options trouvées pour vos dates`}
                             </p>
@@ -125,7 +125,7 @@ export default function HotelsPage() {
             <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#1a2b4b] text-white px-10 py-5 rounded-full flex items-center gap-4 font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl z-40 border-4 border-white/5 group"
+                className="fixed bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 bg-[#1a2b4b] text-white px-8 md:px-10 py-4 md:py-5 rounded-full flex items-center gap-4 font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl z-40 border-4 border-white/5 group"
             >
                 <MapIcon className="h-5 w-5 text-primary group-hover:rotate-12 transition-transform" />
                 Voir sur la carte

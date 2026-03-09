@@ -77,7 +77,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="font-display text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight max-w-5xl mx-auto px-4"
+            className="font-display text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight max-w-5xl mx-auto px-4"
           >
             Trouvez et réservez votre chambre à Labé <span className="text-primary underline decoration-4 underline-offset-8">en quelques secondes</span>.
           </motion.h1>
@@ -127,7 +127,7 @@ export default function HomePage() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="font-display text-4xl font-bold text-[#1a2b4b] dark:text-white mb-4 uppercase tracking-tight">Pourquoi nous choisir ?</h2>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-[#1a2b4b] dark:text-white mb-4 uppercase tracking-tight">Pourquoi nous choisir ?</h2>
           <div className="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
         </motion.div>
 
@@ -228,7 +228,7 @@ export default function HomePage() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[120px]"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 blur-[120px]"></div>
           <div className="relative z-10">
-            <h2 className="font-display text-4xl md:text-7xl font-black text-white mb-8 leading-tight max-w-4xl mx-auto tracking-tighter px-4 uppercase">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-7xl font-black text-white mb-8 leading-tight max-w-4xl mx-auto tracking-tighter px-4 uppercase">
               Le voyage de vos rêves commence ici
             </h2>
             <p className="text-slate-300 text-lg md:text-xl mb-14 max-w-2xl mx-auto font-medium px-4 leading-relaxed">

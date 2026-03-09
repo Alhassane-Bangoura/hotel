@@ -19,7 +19,7 @@ export function HotelSearch() {
             transition={{ delay: 0.2 }}
             className="bg-white p-2 rounded-xl shadow-2xl flex flex-col md:flex-row gap-2 max-w-4xl mx-auto border border-white/20"
         >
-            <div className="flex-1 flex items-center px-4 border-r border-slate-100 py-3">
+            <div className="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-slate-100 py-3">
                 <CalendarDays className="h-5 w-5 text-slate-400 mr-3" />
                 <div className="text-left flex-1">
                     <p className="text-[10px] uppercase font-bold text-slate-400 leading-none mb-1">Check-in</p>
@@ -31,7 +31,7 @@ export function HotelSearch() {
                 </div>
             </div>
 
-            <div className="flex-1 flex items-center px-4 border-r border-slate-100 py-3">
+            <div className="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-slate-100 py-3">
                 <Calendar className="h-5 w-5 text-slate-400 mr-3" />
                 <div className="text-left flex-1">
                     <p className="text-[10px] uppercase font-bold text-slate-400 leading-none mb-1">Check-out</p>
