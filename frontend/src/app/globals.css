@@ -81,6 +81,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Safe areas for mobile */
+.pb-safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.glass {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 dark:bg-slate-900/70 dark:border-slate-800/50;
+}
+
 ::selection {
   background: #f49d2533;
 }

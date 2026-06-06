@@ -1,11 +1,15 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-interface User {
+export type UserRole = 'client' | 'hotel' | 'organizer' | 'admin';
+
+export interface User {
     id: string;
     email: string;
     name: string;
-    role: 'user' | 'admin' | 'hotel';
+    role: UserRole;
     avatar?: string;
+    phone?: string;
 }
 
 interface AuthState {
@@ -17,11 +21,18 @@ interface AuthState {
     logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-    user: null, // Default to null, will be populated by authService
-    isAuthenticated: false,
-    loading: false,
-    setUser: (user) => set({ user, isAuthenticated: !!user }),
-    setLoading: (loading) => set({ loading }),
-    logout: () => set({ user: null, isAuthenticated: false }),
-}));
+export const useAuthStore = create<AuthState>()(
+    persist(
+        (set) => ({
+            user: null,
+            isAuthenticated: false,
+            loading: false,
+            setUser: (user) => set({ user, isAuthenticated: !!user }),
+            setLoading: (loading) => set({ loading }),
+            logout: () => set({ user: null, isAuthenticated: false }),
+        }),
+        {
+            name: 'labe-booking-auth',
+        }
+    )
+);

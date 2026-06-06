@@ -1,51 +1,99 @@
-import { useAuthStore } from "@/store/useAuthStore";
+import { supabase } from '@/lib/supabaseClient';
+import { User, UserRole } from '@/store/useAuthStore';
 
 export const authService = {
-    signIn: async (email: string, password: string) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        
-        // Mock login
-        if (email && password) {
-            const mockUser = {
-                id: '1',
-                email,
-                name: email.split('@')[0],
-                role: 'user' as const,
-            };
-            useAuthStore.getState().setUser(mockUser);
-            return { success: true, user: mockUser };
+    signUp: async (email: string, password: string, fullName: string, role: UserRole = 'client') => {
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    name: fullName,
+                    role: role
+                }
+            }
+        });
+
+        if (authError) throw authError;
+
+        if (authData.user) {
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .upsert({
+                    id: authData.user.id,
+                    name: fullName,
+                    email: email,
+                    role: role
+                });
+
+            if (profileError) throw profileError;
         }
-        return { success: false, error: 'Identifiants invalides' };
+
+        return authData;
     },
-    
-    signUp: async (email: string, password: string, name: string, role: string) => {
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-        const mockUser = {
-            id: Math.random().toString(36).substring(7),
-            email: email,
-            name: name,
-            phone: null,
-            role: (['client', 'hotel', 'organizer', 'admin'].includes(role) ? role : 'client') as any,
-            created_at: new Date().toISOString()
-        };
-        useAuthStore.getState().setUser(mockUser as any);
-        return { success: true, user: mockUser };
-    },
-    
-    signOut: async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        useAuthStore.getState().logout();
-    },
-    
-    getUserProfile: async (id: string) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+
+    signIn: async (email: string, password: string) => {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) throw error;
+
+        const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', data.user.id)
+            .single();
+
+        if (profileError) throw profileError;
+
         return {
-            id,
-            email: 'user@example.com',
-            name: 'Nom Utilisateur',
-            phone: null,
-            role: 'client' as const,
-            created_at: new Date().toISOString()
+            user: data.user,
+            profile: profile as User
         };
+    },
+
+    signOut: async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+    },
+
+    getProfile: async (userId: string): Promise<User | null> => {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .single();
+
+        if (error || !data) return null;
+
+        return {
+            id: data.id,
+            email: data.email,
+            name: data.name,
+            role: data.role as UserRole,
+            avatar: data.avatar_url,
+            phone: data.phone
+        };
+    },
+
+    getCurrentUser: async () => {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error || !user) return null;
+        return authService.getProfile(user.id);
+    },
+
+    updateProfile: async (userId: string, updates: Partial<User>) => {
+        const { error } = await supabase
+            .from('profiles')
+            .update({
+                name: updates.name,
+                phone: updates.phone,
+                avatar_url: updates.avatar
+            })
+            .eq('id', userId);
+
+        if (error) throw error;
     }
 };

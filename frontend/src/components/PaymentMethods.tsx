@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { CreditCard, Store, Check } from 'lucide-react';
+import { CreditCard, Store, Check, ShieldCheck, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface PaymentMethodsProps {
     value: string;
@@ -7,21 +7,41 @@ interface PaymentMethodsProps {
 }
 
 export function PaymentMethods({ value, onChange }: PaymentMethodsProps) {
-    return (
-        <div className="bg-white dark:bg-slate-900/50 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-            <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#1a2b4b] dark:text-white">
-                <div className="bg-[#f49d25]/10 p-2 rounded-xl">
-                    <CreditCard className="h-6 w-6 text-[#f49d25]" />
-                </div>
-                Mode de paiement
-            </h3>
+    const methods = [
+        { 
+            id: 'orange_money', 
+            name: 'Orange Money', 
+            logo: 'ORANGE', 
+            color: 'bg-orange-500 text-white', 
+            desc: 'Paiement direct via API Orange' 
+        },
+        { 
+            id: 'mtn_money', 
+            name: 'MTN MoMo', 
+            logo: 'MTN', 
+            color: 'bg-yellow-400 text-black', 
+            desc: 'Service Mobile Money MTN' 
+        },
+        { 
+            id: 'card', 
+            name: 'Carte Bancaire', 
+            Icon: CreditCard, 
+            color: 'bg-[#1a2b4b] text-white', 
+            desc: 'Visa, Mastercard, Amex' 
+        },
+        { 
+            id: 'cash', 
+            name: 'Paiement à l\'hôtel', 
+            Icon: Store, 
+            color: 'bg-slate-100 text-slate-700', 
+            desc: 'Payez lors de votre arrivée' 
+        }
+    ];
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {[
-                    { id: 'orange_money', name: 'Orange Money', logo: 'ORANGE', color: 'bg-orange-500' },
-                    { id: 'mtn_money', name: 'Mobile Money', logo: 'MTN', color: 'bg-yellow-400 text-black' },
-                    { id: 'cash', name: 'Sur place', Icon: Store }
-                ].map((method) => (
+    return (
+        <div className="space-y-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {methods.map((method) => (
                     <label key={method.id} className="relative cursor-pointer group">
                         <input
                             type="radio"
@@ -30,25 +50,56 @@ export function PaymentMethods({ value, onChange }: PaymentMethodsProps) {
                             onChange={() => onChange(method.id)}
                             className="peer sr-only"
                         />
-                        <div className="p-6 border-2 border-slate-100 dark:border-slate-800 rounded-2xl group-hover:border-[#f49d25]/50 peer-checked:border-[#f49d25] peer-checked:bg-[#f49d25]/5 transition-all h-full flex flex-col items-center justify-center gap-4">
-                            {method.logo ? (
-                                <div className={`h-10 w-16 ${method.color} rounded-lg flex items-center justify-center text-[11px] font-black shadow-sm`}>
-                                    {method.logo}
-                                </div>
-                            ) : (
-                                method.Icon && <method.Icon className="h-10 w-10 text-[#1a2b4b] dark:text-slate-400 group-hover:text-[#f49d25] transition-colors" />
-                            )}
-                            <span className="text-sm font-black text-slate-700 dark:text-slate-200 uppercase tracking-tight">{method.name}</span>
-
-                            {/* Selected Indicator */}
-                            <div className="absolute top-3 right-3 opacity-0 peer-checked:opacity-100 transition-opacity">
-                                <div className="bg-[#f49d25] rounded-full p-1 shadow-lg shadow-[#f49d25]/30">
-                                    <Check className="h-4 w-4 text-white font-black" />
+                        <motion.div 
+                            whileHover={{ y: -4 }}
+                            className="p-8 border-2 border-slate-100 dark:border-slate-800 rounded-[2rem] group-hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/[0.03] transition-all h-full flex flex-col items-start gap-6 relative overflow-hidden"
+                        >
+                            {/* Visual Header */}
+                            <div className="flex items-center justify-between w-full">
+                                {method.logo ? (
+                                    <div className={`h-12 w-20 ${method.color} rounded-xl flex items-center justify-center text-[10px] font-black shadow-lg shadow-black/5 tracking-tighter`}>
+                                        {method.logo}
+                                    </div>
+                                ) : (
+                                    <div className={`h-12 w-12 ${method.color} rounded-xl flex items-center justify-center shadow-lg shadow-black/5`}>
+                                        {method.Icon && <method.Icon className="h-6 w-6" />}
+                                    </div>
+                                )}
+                                
+                                <div className="size-6 border-2 border-slate-200 dark:border-slate-700 rounded-full peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-all">
+                                    <div className="size-2 bg-white rounded-full opacity-0 peer-checked:opacity-100" />
                                 </div>
                             </div>
-                        </div>
+
+                            {/* Content */}
+                            <div className="space-y-1">
+                                <h4 className="text-lg font-black text-[#1a2b4b] dark:text-white uppercase tracking-tight">{method.name}</h4>
+                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{method.desc}</p>
+                            </div>
+
+                            {/* Selected Indicator Background */}
+                            <div className="absolute -right-8 -bottom-8 opacity-0 peer-checked:opacity-10 transition-opacity">
+                                {method.Icon ? <method.Icon className="h-32 w-32 text-primary" /> : <div className="text-8xl font-black text-primary">{method.logo}</div>}
+                            </div>
+                        </motion.div>
                     </label>
                 ))}
+            </div>
+
+            {/* Trust Footer */}
+            <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                    <ShieldCheck className="h-6 w-6 text-green-500" />
+                    <div className="text-left">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-[#1a2b4b] dark:text-white leading-none">Paiement 100% Sécurisé</p>
+                        <p className="text-[9px] text-slate-400 font-medium mt-1">Vos données sont cryptées via SSL 256 bits</p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className="h-6 w-10 bg-slate-200 dark:bg-slate-700 rounded flex items-center justify-center text-[8px] font-black text-slate-400">VISA</div>
+                    <div className="h-6 w-10 bg-slate-200 dark:bg-slate-700 rounded flex items-center justify-center text-[8px] font-black text-slate-400">MC</div>
+                    <div className="h-6 w-10 bg-slate-200 dark:bg-slate-700 rounded flex items-center justify-center text-[8px] font-black text-slate-400">OM</div>
+                </div>
             </div>
         </div>
     );

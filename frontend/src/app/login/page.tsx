@@ -6,9 +6,13 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Hotel, Mail, Lock, Phone, ShieldCheck, CreditCard, UserCheck, User, Loader2, AlertCircle } from 'lucide-react';
 import { authService } from '@/services/authService';
+import { useToast } from '@/components/ui/Toast';
+
+import { supabase } from '@/lib/supabaseClient';
 
 function LoginPageContent() {
     const router = useRouter();
+    const { showToast } = useToast();
     const searchParams = useSearchParams();
     const tabParam = searchParams.get('tab');
 
@@ -21,6 +25,7 @@ function LoginPageContent() {
     // Form states
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [name, setName] = useState('');
     const [role, setRole] = useState<'client' | 'hotel' | 'organizer'>('client');
 
@@ -31,11 +36,48 @@ function LoginPageContent() {
 
         try {
             if (activeTab === 'login') {
-                await authService.signIn(email, password);
-                router.push('/dashboard');
+                const { profile } = await authService.signIn(email, password);
+                
+                // Role-based redirection
+                if (profile.role === 'hotel') {
+                    router.push('/dashboard/hotel/command-center');
+                } else if (profile.role === 'admin') {
+                    router.push('/dashboard/admin');
+                } else {
+                    const redirect = searchParams.get('redirect');
+                    if (redirect) {
+                        router.push(redirect);
+                    } else {
+                        router.push('/dashboard');
+                    }
+                }
             } else {
-                await authService.signUp(email, password, name, role);
-                alert('Inscription réussie ! Veuillez vérifier votre email.');
+                // Confirm password validation
+                if (password !== confirmPassword) {
+                    throw new Error('Les mots de passe ne correspondent pas !');
+                }
+
+                // Check duplicate email in profiles table
+                const { data: existingProfile } = await supabase
+                    .from('profiles')
+                    .select('id')
+                    .eq('email', email.trim().toLowerCase())
+                    .maybeSingle();
+
+                if (existingProfile) {
+                    throw new Error('Cet e-mail est déjà utilisé par un autre compte.');
+                }
+
+                await authService.signUp(email.trim().toLowerCase(), password, name, role);
+                showToast('Inscription réussie ! Vous pouvez maintenant vous connecter.', 'success');
+                
+                // Reset states
+                setName('');
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                
+                // Switch to login tab
                 setActiveTab('login');
             }
         } catch (err: any) {
@@ -156,17 +198,47 @@ function LoginPageContent() {
                                             </div>
                                         </div>
 
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Je suis un...</label>
-                                            <select
-                                                className="w-full px-6 py-5 bg-[#f8f7f5] dark:bg-slate-800/50 border-2 border-transparent focus:border-[#f49d25]/30 rounded-2xl focus:ring-0 text-[#1a2b4b] dark:text-white font-bold transition-all outline-none appearance-none"
-                                                value={role}
-                                                onChange={(e) => setRole(e.target.value as any)}
-                                            >
-                                                <option value="client">Client (Voyageur)</option>
-                                                <option value="hotel">Hôtelier (Gérant d'hôtel)</option>
-                                                <option value="organizer">Organisateur d'événements</option>
-                                            </select>
+                                        <div className="space-y-4">
+                                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Type de compte</label>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setRole('client')}
+                                                    className={`p-6 rounded-2xl border-2 text-left transition-all duration-300 flex flex-col justify-between h-40 ${
+                                                        role === 'client'
+                                                            ? 'border-[#f49d25] bg-[#f49d25]/5 text-[#1a2b4b] dark:text-white shadow-lg'
+                                                            : 'border-slate-100 dark:border-slate-800 bg-[#f8f7f5] dark:bg-slate-800/30 text-slate-500 hover:border-slate-300'
+                                                    }`}
+                                                >
+                                                    <div className="flex justify-between items-center w-full">
+                                                        <User className={`h-8 w-8 ${role === 'client' ? 'text-[#f49d25]' : 'text-slate-400'}`} />
+                                                        {role === 'client' && <div className="h-5 w-5 rounded-full bg-[#f49d25] flex items-center justify-center text-[#1a2b4b] text-[10px] font-black">✓</div>}
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-black text-sm uppercase tracking-wider">Voyageur</p>
+                                                        <p className="text-[9px] font-medium leading-snug mt-1 opacity-70">Réserver des chambres d'hôtel à Labé.</p>
+                                                    </div>
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setRole('hotel')}
+                                                    className={`p-6 rounded-2xl border-2 text-left transition-all duration-300 flex flex-col justify-between h-40 ${
+                                                        role === 'hotel'
+                                                            ? 'border-[#f49d25] bg-[#f49d25]/5 text-[#1a2b4b] dark:text-white shadow-lg'
+                                                            : 'border-slate-100 dark:border-slate-800 bg-[#f8f7f5] dark:bg-slate-800/30 text-slate-500 hover:border-slate-300'
+                                                    }`}
+                                                >
+                                                    <div className="flex justify-between items-center w-full">
+                                                        <Hotel className={`h-8 w-8 ${role === 'hotel' ? 'text-[#f49d25]' : 'text-slate-400'}`} />
+                                                        {role === 'hotel' && <div className="h-5 w-5 rounded-full bg-[#f49d25] flex items-center justify-center text-[#1a2b4b] text-[10px] font-black">✓</div>}
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-black text-sm uppercase tracking-wider">Gérant d'Hôtel</p>
+                                                        <p className="text-[9px] font-medium leading-snug mt-1 opacity-70">Publier et gérer des établissements à Labé.</p>
+                                                    </div>
+                                                </button>
+                                            </div>
                                         </div>
                                     </>
                                 )}
@@ -206,6 +278,24 @@ function LoginPageContent() {
                                         />
                                     </div>
                                 </div>
+
+                                {activeTab === 'register' && (
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Confirmer le mot de passe</label>
+                                        <div className="relative group">
+                                            <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-[#f49d25] transition-colors" />
+                                            <input
+                                                className="w-full pl-16 pr-6 py-5 bg-[#f8f7f5] dark:bg-slate-800/50 border-2 border-transparent focus:border-[#f49d25]/30 rounded-2xl focus:ring-0 text-[#1a2b4b] dark:text-white font-bold transition-all outline-none"
+                                                placeholder="••••••••"
+                                                type="password"
+                                                value={confirmPassword}
+                                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                                required
+                                                minLength={6}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
 
                                 {activeTab === 'login' && (
                                     <div className="flex items-center gap-3 px-1">

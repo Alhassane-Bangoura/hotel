@@ -6,6 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { RoomModal } from '@/components/RoomModal';
 import { AdminCalendar } from '@/components/AdminCalendar';
+import { NotificationDropdown } from '@/components/NotificationDropdown';
+import { ChatList } from '@/components/ChatList';
+import { ChatWindow } from '@/components/ChatWindow';
 import {
     LayoutDashboard, Hotel, Calendar, Users, ShieldCheck,
     TrendingUp, CheckCircle, XCircle, Clock, Eye, Ban,
@@ -29,6 +32,8 @@ export default function AdminPage() {
     const [selectedRoom, setSelectedRoom] = useState<any>(null);
     const [rooms, setRooms] = useState<HotelType[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
+    const [selectedConversationName, setSelectedConversationName] = useState<string>('');
 
     const fetchRooms = async () => {
         setLoading(true);
@@ -78,6 +83,7 @@ export default function AdminPage() {
                         { id: 'bookings', label: 'Flux Réservations', icon: Calendar },
                         { id: 'rooms', label: 'Gestion Chambres', icon: Hotel },
                         { id: 'clients', label: 'Clientèle', icon: Users },
+                        { id: 'messages', label: 'Messages', icon: MessageSquare },
                         { id: 'revenue', label: 'Analytique', icon: Wallet },
                     ].map((item) => (
                         <button
@@ -127,10 +133,7 @@ export default function AdminPage() {
                     </div>
                     
                     <div className="flex items-center gap-8">
-                        <button className="relative p-3 bg-slate-50 dark:bg-slate-800 rounded-2xl text-slate-500 hover:text-primary transition-all">
-                            <Bell className="h-5 w-5" />
-                            <span className="absolute top-3 right-3 size-2.5 bg-red-500 rounded-full border-4 border-white dark:border-slate-900 animate-pulse" />
-                        </button>
+                        <NotificationDropdown />
                         <div className="flex items-center gap-4 sm:pl-8 sm:border-l border-slate-100 dark:border-slate-800">
                             <div className="text-right hidden sm:block">
                                 <p className="text-[11px] font-black text-[#1a2b4b] dark:text-white uppercase tracking-widest">Alpha Mamadou</p>
@@ -144,8 +147,10 @@ export default function AdminPage() {
                 </header>
 
                 <div className="flex-1 overflow-y-auto p-4 sm:p-10 space-y-10 md:space-y-12 scroll-smooth">
-                    {/* Welcome Section */}
-                    <div className="flex items-center justify-between">
+                    {activeTab === 'dashboard' ? (
+                        <>
+                            {/* Welcome Section */}
+                            <div className="flex items-center justify-between">
                         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                             <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#1a2b4b] dark:text-white tracking-tighter uppercase leading-[0.8]">
                                 Performance <br /><span className="text-primary italic">Live</span>
@@ -264,6 +269,37 @@ export default function AdminPage() {
                             </div>
                         </div>
                     </div>
+                        </>
+                    ) : activeTab === 'messages' ? (
+                        <div className="h-[calc(100vh-200px)] flex gap-6">
+                            <div className={`${selectedConversationId ? 'hidden md:block' : 'block'} w-full md:w-[400px] h-full shrink-0`}>
+                                <ChatList 
+                                    onSelectConversation={(id, name) => {
+                                        setSelectedConversationId(id);
+                                        setSelectedConversationName(name);
+                                    }} 
+                                />
+                            </div>
+                            <div className={`${selectedConversationId ? 'block' : 'hidden md:flex flex-col items-center justify-center bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-xl opacity-50'} flex-1 h-full`}>
+                                {selectedConversationId ? (
+                                    <ChatWindow 
+                                        conversationId={selectedConversationId} 
+                                        recipientName={selectedConversationName}
+                                        onClose={() => setSelectedConversationId(null)}
+                                    />
+                                ) : (
+                                    <>
+                                        <MessageSquare className="h-16 w-16 text-slate-300 mb-4" />
+                                        <p className="text-sm font-black text-slate-400 uppercase tracking-widest">Sélectionnez une conversation</p>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="py-20 flex flex-col items-center justify-center gap-4 opacity-50">
+                            <h2 className="text-2xl font-black uppercase tracking-widest text-slate-400">Section en construction</h2>
+                        </div>
+                    )}
                 </div>
             </main>
         </div>

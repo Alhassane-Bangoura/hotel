@@ -8,19 +8,27 @@ import { RoomResultCard } from '@/components/RoomResultCard';
 import { useHotelStore } from '@/store/useHotelStore';
 import { hotelService } from '@/services/hotelService';
 import { TrendingUp, History, Map as MapIcon, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 
 export default function HotelsPage() {
     const { filteredHotels, setHotels, loading, setLoading } = useHotelStore();
 
+    const { handleError } = useErrorHandler();
+
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
-            const data = await hotelService.getHotels();
-            setHotels(data);
-            setLoading(false);
+            try {
+                setLoading(true);
+                const data = await hotelService.getHotels();
+                setHotels(data);
+            } catch (error) {
+                handleError(error, "Impossible de charger les hôtels. Veuillez vérifier votre connexion.");
+            } finally {
+                setLoading(false);
+            }
         };
         fetchData();
-    }, [setHotels, setLoading]);
+    }, [setHotels, setLoading, handleError]);
 
     return (
         <div className="min-h-screen bg-[#f8f7f5] dark:bg-[#111827]">

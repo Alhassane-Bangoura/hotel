@@ -3,7 +3,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Star, Wifi, Wind, Coffee, CheckCircle, Heart, Building2 } from 'lucide-react';
+import { Star, Wifi, Wind, Coffee, CheckCircle, Heart, Building2, MessageSquare, ShieldCheck, Zap } from 'lucide-react';
+import { WhatsAppBridge } from '@/services/WhatsAppBridge';
+import { useAuthStore } from '@/store/useAuthStore';
 
 interface RoomProps {
     room: {
@@ -24,9 +26,14 @@ interface RoomProps {
 
 export function RoomResultCard({ room }: RoomProps) {
     const router = useRouter();
+    const { isAuthenticated } = useAuthStore();
 
     const handleReserve = () => {
-        router.push(`/bookings/new?id=${room.id}`);
+        if (!isAuthenticated) {
+            router.push(`/login?redirect=${encodeURIComponent(`/bookings/new?id=${room.id}`)}`);
+        } else {
+            router.push(`/bookings/new?id=${room.id}`);
+        }
     };
 
     const handleDetails = () => {
@@ -68,6 +75,16 @@ export function RoomResultCard({ room }: RoomProps) {
                             <Building2 className="h-4 w-4 text-primary" />
                             {room.hotel} — {room.quartier}
                         </p>
+                        <div className="flex items-center gap-2 mt-2">
+                            <div className="flex items-center gap-1.5 bg-blue-500/10 text-blue-600 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border border-blue-500/20">
+                                <ShieldCheck className="h-3.5 w-3.5" />
+                                Hôtel Vérifié
+                            </div>
+                            <div className="flex items-center gap-1.5 bg-green-500/10 text-green-600 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border border-green-500/20">
+                                <Zap className="h-3.5 w-3.5" />
+                                Réservation Sécurisée
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex flex-wrap gap-2">
@@ -123,6 +140,15 @@ export function RoomResultCard({ room }: RoomProps) {
                         >
                             Voir les détails
                         </button>
+                        <a 
+                            href={WhatsAppBridge.contactHotel('224600000000', room.hotel, room.id)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full py-3.5 bg-green-500 text-white font-black rounded-2xl hover:bg-green-600 transition-all text-[10px] uppercase tracking-widest border border-white/10 active:scale-95 flex items-center justify-center gap-2"
+                        >
+                            <MessageSquare className="h-4 w-4" />
+                            WhatsApp
+                        </a>
                     </div>
                 </div>
             </div>
